@@ -1,0 +1,3 @@
+[submodule "lib/ogdf-demo"]
+	path = lib/ogdf-demo
+	url = git@github.com:leon-richardt/ogdf-demo.git
