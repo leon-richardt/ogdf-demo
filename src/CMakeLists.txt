@@ -1,11 +1,12 @@
-set(SOURCE_FILES main.cpp)
+set(DRAW_NAME draw)
+set(DRAW_SOURCES draw.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${DRAW_NAME} ${DRAW_SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${OGDF_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} OGDF)
+target_include_directories(${DRAW_NAME} PRIVATE ${OGDF_INCLUDE_DIRS})
+target_link_libraries(${DRAW_NAME} OGDF)
 
-set_target_properties(${PROJECT_NAME}
+set_target_properties(${DRAW_NAME}
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
