@@ -1,3 +1,4 @@
+# Define executables
 set(DRAW_NAME draw)
 set(DRAW_SOURCES draw.cpp)
 
@@ -8,7 +9,13 @@ set(IO_DIJKSTRA_SOURCES io_dijkstra.cpp)
 
 add_executable(${IO_DIJKSTRA_NAME} ${IO_DIJKSTRA_SOURCES})
 
-foreach(EXEC ${DRAW_NAME} ${IO_DIJKSTRA_NAME})
+set(RANDOM_DIJKSTRA_NAME random_dijkstra)
+set(RANDOM_DIJKSTRA_SOURCES random_dijkstra.cpp)
+
+add_executable(${RANDOM_DIJKSTRA_NAME} ${RANDOM_DIJKSTRA_SOURCES})
+
+# Link common libraries
+foreach(EXEC ${DRAW_NAME} ${IO_DIJKSTRA_NAME} ${RANDOM_DIJKSTRA_NAME})
     target_include_directories(${EXEC} PRIVATE ${OGDF_INCLUDE_DIRS})
     target_link_libraries(${EXEC} OGDF)
 
