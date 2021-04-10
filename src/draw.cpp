@@ -13,14 +13,20 @@
 
 using namespace ogdf;
 
-void setupGraph(Graph &g)
+void setupGraph(Graph &g, GraphAttributes &attrs)
 {
+    static const std::vector<string> labels = {"1", "2", "3", "4", "5"};
+
     // Nodes (insertion order is preserved)
     node lowerLeft = g.newNode();
     node upperRight = g.newNode();
     node upperLeft = g.newNode();
     node rooftop = g.newNode();
     node lowerRight = g.newNode();
+
+    int i = 0;
+    for (const node &n : attrs.constGraph().nodes)
+        attrs.label(n) = labels[i++];
 
     // Edges
     g.newEdge(lowerLeft, upperRight);
@@ -35,27 +41,20 @@ void setupGraph(Graph &g)
 
 void naiveLayout(GraphAttributes &attrs)
 {
-    static std::vector<std::tuple<int, int, string>> static_attrs = {
-        {0, 120, "1"},
-        {80, 40, "2"},
-        {0, 40, "3"},
-        {40, 0, "4"},
-        {80, 120, "5"}};
+    static const std::vector<std::tuple<int, int>> positions = {
+        {0, 120}, {80, 40}, {0, 40}, {40, 0}, {80, 120}};
 
     int i = 0;
 
     // We rely on the fact that node insertion order is preserved here
     for (const node &n : attrs.constGraph().nodes)
     {
-        const auto &tup = static_attrs[i];
-        int x = std::get<0>(tup);
-        int y = std::get<1>(tup);
-        string label = std::get<2>(tup);
+        const auto &tup = positions[i++];
+        const int x = std::get<0>(tup);
+        const int y = std::get<1>(tup);
 
         attrs.x(n) = x;
         attrs.y(n) = y;
-        attrs.label(n) = label;
-        ++i;
     }
 }
 
@@ -92,7 +91,7 @@ int main()
                GraphAttributes::nodeWeight | GraphAttributes::edgeGraphics |
                GraphAttributes::edgeStyle | GraphAttributes::edgeType);
 
-    setupGraph(g);
+    setupGraph(g, attrs);
 
     naiveLayout(attrs);
     GraphIO::write(attrs, "output-naive.svg", GraphIO::drawSVG);
