@@ -61,20 +61,10 @@ void naiveLayout(GraphAttributes &attrs)
 void planarLayout(GraphAttributes &attrs)
 {
     PlanarizationLayout pl;
-
-    SubgraphPlanarizer crossMin;
-
-    auto *ps = new PlanarSubgraphFast<int>;
-    VariableEmbeddingInserter *ves = new VariableEmbeddingInserter;
-    ves->removeReinsert(RemoveReinsertType::All);
-
-    crossMin.setSubgraph(ps);
-    crossMin.setInserter(ves);
-
-    EmbedderMinDepthMaxFaceLayers *emb = new EmbedderMinDepthMaxFaceLayers;
+    auto *emb = new EmbedderMinDepthMaxFaceLayers;
     pl.setEmbedder(emb);
 
-    OrthoLayout *ol = new OrthoLayout;
+    auto *ol = new OrthoLayout;
     ol->separation(20.0);
     ol->cOverhang(0.4);
     pl.setPlanarLayouter(ol);
