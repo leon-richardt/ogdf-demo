@@ -3,9 +3,9 @@
 #include <ogdf/fileformats/GraphIO.h>
 #include <ogdf/graphalg/Dijkstra.h>
 
+#include <deque>
 #include <fstream>
 #include <iostream>
-#include <list>
 #include <string>
 
 int main(int argc, const char **argv)
@@ -43,7 +43,7 @@ int main(int argc, const char **argv)
         std::cout << "  ... node " << n << ": " << dist[n];
 
         // Build path in "correct" order (starting from source)
-        std::list<ogdf::edge> path;
+        std::deque<ogdf::edge> path;
         ogdf::node curTarget = n;
         ogdf::edge curEdge = preds[curTarget];
         while (curEdge != nullptr)
