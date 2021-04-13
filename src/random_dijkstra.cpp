@@ -74,7 +74,7 @@ int main(int argc, const char **argv)
               });
 
     // Print results
-    std::cout << "Minimum distance from " << origin << " to ...\n";
+    std::cout << "Minimum distance from node " << origin << " to ...\n";
     for (const auto &n : nodes)
     {
         if (n == nullptr)

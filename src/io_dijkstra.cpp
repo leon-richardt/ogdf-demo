@@ -37,7 +37,7 @@ int main(int argc, const char **argv)
     // Needs to be called on an instance for some reason?
     ogdf::Dijkstra<double>().call(g, weights, origin, preds, dist, false);
 
-    std::cout << "Minimum distance from " << origin << " to ...\n";
+    std::cout << "Minimum distance from node " << origin << " to ...\n";
     for (const auto &n : g.nodes)
     {
         std::cout << "  ... node " << n << ": " << dist[n];
