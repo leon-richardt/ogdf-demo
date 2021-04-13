@@ -95,7 +95,7 @@ int main(int argc, const char **argv)
         }
 
         // Print path
-        if (path.size() == 0)
+        if (path.empty())
         {
             // Path from start node to start node -> empty
             std::cout << "\n";
