@@ -53,7 +53,7 @@ int main(int argc, const char **argv)
     ogdf::NodeArray<double> dist;
     const ogdf::node origin = g.firstNode();
 
-    ogdf::Dijkstra<double>().call(g, weights, origin, preds, dist, true);
+    ogdf::Dijkstra<double>().call(g, weights, origin, preds, dist);
 
     // Sort nodes by distance to origin
     std::vector<ogdf::node> nodes(g.nodes.size());
@@ -103,9 +103,11 @@ int main(int argc, const char **argv)
         }
 
         std::cout << ", path: " << path.front()->source();
+        ogdf::node lastVisited = path.front()->source();
         for (const ogdf::edge &e : path)
         {
-            std::cout << " -> " << e->target();
+            std::cout << " -> " << e->opposite(lastVisited);
+            lastVisited = e->opposite(lastVisited);
         }
         std::cout << "\n";
     }
