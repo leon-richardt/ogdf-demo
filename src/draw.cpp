@@ -11,21 +11,19 @@
 #include <iostream>
 #include <tuple>
 
-using namespace ogdf;
-
-void setupGraph(Graph &g, GraphAttributes &attrs)
+void setupGraph(ogdf::Graph &g, ogdf::GraphAttributes &attrs)
 {
-    static const std::vector<string> labels = {"1", "2", "3", "4", "5"};
+    static const std::vector<ogdf::string> labels = {"1", "2", "3", "4", "5"};
 
     // Nodes (insertion order is preserved)
-    node lowerLeft = g.newNode();
-    node upperRight = g.newNode();
-    node upperLeft = g.newNode();
-    node rooftop = g.newNode();
-    node lowerRight = g.newNode();
+    ogdf::node lowerLeft = g.newNode();
+    ogdf::node upperRight = g.newNode();
+    ogdf::node upperLeft = g.newNode();
+    ogdf::node rooftop = g.newNode();
+    ogdf::node lowerRight = g.newNode();
 
     int i = 0;
-    for (const node &n : attrs.constGraph().nodes)
+    for (const ogdf::node &n : attrs.constGraph().nodes)
         attrs.label(n) = labels[i++];
 
     // Edges
@@ -39,7 +37,7 @@ void setupGraph(Graph &g, GraphAttributes &attrs)
     g.newEdge(lowerLeft, lowerRight);
 }
 
-void naiveLayout(GraphAttributes &attrs)
+void naiveLayout(ogdf::GraphAttributes &attrs)
 {
     static const std::vector<std::tuple<int, int>> positions = {
         {0, 120}, {80, 40}, {0, 40}, {40, 0}, {80, 120}};
@@ -47,7 +45,7 @@ void naiveLayout(GraphAttributes &attrs)
     int i = 0;
 
     // We rely on the fact that node insertion order is preserved here
-    for (const node &n : attrs.constGraph().nodes)
+    for (const auto &n : attrs.constGraph().nodes)
     {
         const auto &tup = positions[i++];
         const int x = std::get<0>(tup);
@@ -58,13 +56,13 @@ void naiveLayout(GraphAttributes &attrs)
     }
 }
 
-void planarLayout(GraphAttributes &attrs)
+void planarLayout(ogdf::GraphAttributes &attrs)
 {
-    PlanarizationLayout pl;
-    auto *emb = new EmbedderMinDepthMaxFaceLayers;
+    ogdf::PlanarizationLayout pl;
+    auto *emb = new ogdf::EmbedderMinDepthMaxFaceLayers;
     pl.setEmbedder(emb);
 
-    auto *ol = new OrthoLayout;
+    auto *ol = new ogdf::OrthoLayout;
     ol->separation(20.0);
     ol->cOverhang(0.4);
     pl.setPlanarLayouter(ol);
@@ -74,20 +72,19 @@ void planarLayout(GraphAttributes &attrs)
 
 int main()
 {
-    Graph g;
-    GraphAttributes attrs(
-        g, GraphAttributes::nodeGraphics | GraphAttributes::nodeStyle |
-               GraphAttributes::nodeType | GraphAttributes::nodeLabel |
-               GraphAttributes::nodeWeight | GraphAttributes::edgeGraphics |
-               GraphAttributes::edgeStyle | GraphAttributes::edgeType);
+    ogdf::Graph g;
+    using GA = ogdf::GraphAttributes;
+    ogdf::GraphAttributes attrs(
+        g, GA::nodeGraphics | GA::nodeStyle | GA::nodeType | GA::nodeLabel |
+               GA::edgeGraphics | GA::edgeStyle | GA::edgeType);
 
     setupGraph(g, attrs);
 
     naiveLayout(attrs);
-    GraphIO::write(attrs, "output-naive.svg", GraphIO::drawSVG);
+    ogdf::GraphIO::write(attrs, "output-naive.svg", ogdf::GraphIO::drawSVG);
 
     planarLayout(attrs);
-    GraphIO::write(attrs, "output-planar.svg", GraphIO::drawSVG);
+    ogdf::GraphIO::write(attrs, "output-planar.svg", ogdf::GraphIO::drawSVG);
 
     return 0;
 }
